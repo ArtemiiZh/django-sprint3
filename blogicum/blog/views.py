@@ -50,18 +50,18 @@ def category_posts(request, category_slug):
         is_published=True
     )
 
-    # Шаг 2: Извлекаем посты этой категории строго по ТЗ
-    posts = Post.objects.select_related('category', 'location').filter(
-        category=category,
-        is_published=True,
-        pub_date__lte=timezone.now()
-    ).order_by('-pub_date')
+    # Шаг 2: Извлекаем посты этой категории через вспомогательную функцию
+    posts = (
+        get_published_posts()
+        .filter(category=category)
+        .order_by('-pub_date')
+    )
 
     # Шаг 3: Рендерим шаблон, передавая все варианты ключей
     return render(
         request,
         'blog/category.html',
-        {
+        { 
             'category': category,
             'posts': posts,
             'page_obj': posts,

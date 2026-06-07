@@ -1,14 +1,17 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model 
 from django.db import models
 
 User = get_user_model()
+
+# Константы уровня модуля в верхнем регистре
+MAX_CHAR_LENGTH = 256
 
 
 class Location(models.Model):
     """Модель географической метки."""
 
     name = models.CharField(
-        max_length=256,
+        max_length=MAX_CHAR_LENGTH,
         verbose_name='Название места'
     )
     is_published = models.BooleanField(
@@ -33,7 +36,7 @@ class Category(models.Model):
     """Модель тематической категории."""
 
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_CHAR_LENGTH,
         verbose_name='Заголовок'
     )
     description = models.TextField(
@@ -69,7 +72,7 @@ class Post(models.Model):
     """Модель публикации."""
 
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_CHAR_LENGTH,
         verbose_name='Заголовок'
     )
     text = models.TextField(
