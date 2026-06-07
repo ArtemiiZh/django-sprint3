@@ -9,7 +9,7 @@ POSTS_LIMIT = 5
 
 def get_published_posts():
     """Вспомогательная функция для получения базового запроса постов.
-    
+
     Отбирает только опубликованные посты с опубликованной категорией,
     дата публикации которых уже наступила, и оптимизирует запросы к БД.
     """
@@ -23,11 +23,10 @@ def get_published_posts():
 def index(request):
     """Главная страница: выводит 5 последних опубликованных постов."""
     posts = get_published_posts().order_by('-pub_date')[:POSTS_LIMIT]
-    
-    # Передаем все возможные варианты имен переменных для шаблона и тестов
+
     return render(
-        request, 
-        'blog/index.html', 
+        request,
+        'blog/index.html',
         {
             'posts': posts,
             'page_obj': posts,
@@ -50,14 +49,14 @@ def category_posts(request, category_slug):
         slug=category_slug,
         is_published=True
     )
-    
+
     # Шаг 2: Извлекаем посты этой категории строго по ТЗ
     posts = Post.objects.select_related('category', 'location').filter(
         category=category,
         is_published=True,
         pub_date__lte=timezone.now()
     ).order_by('-pub_date')
-    
+
     # Шаг 3: Рендерим шаблон, передавая все варианты ключей
     return render(
         request,
