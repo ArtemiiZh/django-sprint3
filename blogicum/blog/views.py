@@ -61,7 +61,7 @@ def category_posts(request, category_slug):
     return render(
         request,
         'blog/category.html',
-        { 
+        {
             'category': category,
             'posts': posts,
             'page_obj': posts,
